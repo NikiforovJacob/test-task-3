@@ -6,8 +6,21 @@ import * as actions from './actions';
 import tableReducer from '../containers/mainTable/Redux/reducer';
 
 const trainingsDefaultState = {
-  byId: {},
-  allIds: [],
+  byId: {
+    2: {
+      date: '2019-12-29',
+      activityType: 'Running',
+      distance: 1.3,
+      comment: 'fe',
+    },
+    1: {
+      date: '2019-12-29',
+      activityType: 'Swimming',
+      distance: 0.3,
+      comment: 'fe',
+    },
+  },
+  allIds: [2, 1],
 };
 
 const trainingsReducer = handleActions(
@@ -40,12 +53,39 @@ const trainingsReducer = handleActions(
   trainingsDefaultState,
 );
 
+const modalDefaultState = {
+  openedModal: null,
+  editableTrainingId: null,
+};
+
+const modalStateReducer = handleActions(
+  {
+    [actions.openModal](state, { payload: { modalTitle } }) {
+      return {
+        openedModal: modalTitle,
+      };
+    },
+    [actions.closeModal]() {
+      return {
+        openedModal: null,
+      };
+    },
+    [actions.addTraining]() {
+      return {
+        openedModal: null,
+      };
+    },
+  },
+  modalDefaultState,
+);
+
 const domainDataReducer = combineReducers({
   trainings: trainingsReducer,
 });
 
 const uiStateReducer = combineReducers({
   table: tableReducer,
+  modalState: modalStateReducer,
 });
 
 export default combineReducers({

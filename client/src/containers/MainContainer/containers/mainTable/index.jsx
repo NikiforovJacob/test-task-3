@@ -1,8 +1,28 @@
 import React from 'react';
-import TrainingsTable from './components/trainingsTable';
+import {
+  UncontrolledButtonDropdown,
+  DropdownToggle,
+  DropdownMenu,
+  DropdownItem,
+} from 'reactstrap';
+import TrainingsTable from './components/TrainingsTable';
 
 const MainTable = () => (
-  <TrainingsTable />
+  <>
+    <UncontrolledButtonDropdown>
+      <DropdownToggle caret size="sm">
+        Dropdown
+      </DropdownToggle>
+      <DropdownMenu>
+        <DropdownItem>Header</DropdownItem>
+        <DropdownItem>Action</DropdownItem>
+        <DropdownItem>Another Action</DropdownItem>
+        <DropdownItem>Another Action</DropdownItem>
+      </DropdownMenu>
+    </UncontrolledButtonDropdown>
+    <TrainingsTable />
+  </>
 );
+
 
 export default MainTable;

@@ -36,17 +36,21 @@ module.exports = {
       },
       { test: /\.(js|jsx)$/, exclude: /node_modules/, use: ['eslint-loader'] },
       { test: /\.html$/, use: { loader: 'html-loader' } },
+      // {
+      //   test: /\.css$/i,
+      //   use: [
+      //     'style-loader',
+      //     {
+      //       loader: 'css-loader',
+      //       options: {
+      //         modules: true,
+      //       },
+      //     },
+      //   ],
+      // },
       {
-        test: /\.css$/i,
-        use: [
-          'style-loader',
-          {
-            loader: 'css-loader',
-            options: {
-              modules: true,
-            },
-          },
-        ],
+        test: /\.css$/,
+        use: ['style-loader', 'css-loader'],
       },
     ],
   },
