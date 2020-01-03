@@ -1,7 +1,7 @@
 import React from 'react';
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
-import configureStore from './Redux/configureStore';
+import configureStore from './redux/configureStore';
 import Routes from './components/Routes';
 
 import './styled/GlobalStyles';

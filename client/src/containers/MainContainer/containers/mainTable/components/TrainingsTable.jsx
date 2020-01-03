@@ -1,10 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Table } from 'reactstrap';
-import * as actions from '../../../Redux/actions';
+import * as actions from '../../modalCRUDTraining/redux/actions';
 
 const actionCreators = {
-  openModal: actions.openModal,
+  openEditTrainingModal: actions.openEditTrainingModal,
 };
 
 const mapStateToProps = (state) => {
@@ -16,10 +16,14 @@ const mapStateToProps = (state) => {
 };
 
 const TrainingsTable = (props) => {
-  const { trainingsById, trainingsIds } = props;
+  const { trainingsById, trainingsIds, openEditTrainingModal } = props;
+
+  const handleOpenEditTrainingModal = (editableTrainingId) => () => {
+    openEditTrainingModal({ editableTrainingId });
+  };
 
   const renderTableBody = (tById, tIds) => tIds.map((tId) => (
-    <tbody key={`${tId}`}>
+    <tbody key={`${tId}`} onClick={handleOpenEditTrainingModal(tId)} onKeyDown={handleOpenEditTrainingModal(tId)}>
       <tr>
         {Object.keys(tById[tId]).map(
           (key) => (key === 'id' ? null : (<td key={`${tId}-${key}`}>{tById[tId][key]}</td>)),

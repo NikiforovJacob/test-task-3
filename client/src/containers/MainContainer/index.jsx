@@ -4,33 +4,28 @@ import {
   Button,
 } from 'reactstrap';
 import MainTable from './containers/mainTable';
-import ModalCRUDTraining from './components/ModalCRUDTraining';
-import modalsTypes from '../../shared/dispatchers/modalsTypes';
-import * as actions from './Redux/actions';
+import ModalCRUDTraining from './containers/modalCRUDTraining/index';
+import * as actions from './containers/modalCRUDTraining/redux/actions';
 
 const actionCreators = {
-  openModal: actions.openModal,
+  openAddTrainingModal: actions.openAddTrainingModal,
 };
 
 const mapStateToProps = (
-  {
-    mainContainerData: {
-      uiState: { modalState: { openedModal } },
-    },
-  },
+  { mainContainerData: { uiState: { modalCRUDTraining: { openedModal } } } },
 ) => ({
   openedModal,
 });
 
 const MainContainer = (props) => {
-  const handleOpenModal = (modalTitle) => () => {
-    const { openModal } = props;
-    openModal({ modalTitle });
+  const handleOpenAddTrainingModal = () => {
+    const { openAddTrainingModal } = props;
+    openAddTrainingModal();
   };
 
   return (
     <div>
-      <Button color="danger" onClick={handleOpenModal(modalsTypes.addTraining)}>New</Button>
+      <Button color="danger" onClick={handleOpenAddTrainingModal}>New</Button>
       <ModalCRUDTraining />
       <MainTable />
     </div>
