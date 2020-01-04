@@ -6,6 +6,7 @@ import {
   Input,
 } from 'reactstrap';
 import * as renderFields from '../../../../../shared/redux-form-components/renderFields';
+import trainingTypes from '../../../../../shared/data';
 
 const FormTraining = (props) => {
   const { handleSubmit } = props;
@@ -18,12 +19,9 @@ const FormTraining = (props) => {
         type="date"
         component={renderFields.text}
       />
-      <Field name="activityType" label="Type of activity" type="select" component={renderFields.select}>
+      <Field name="trainingType" label="Training type" type="select" component={renderFields.select}>
         <option value="">-</option>
-        <option value="Running">Running</option>
-        <option value="Swimming">Swimming</option>
-        <option value="Cycling">Cycling</option>
-        <option value="Skiing">Skiing</option>
+        {trainingTypes.map((type) => (<option key={type} value={type}>{type}</option>))}
       </Field>
       <Field
         name="distance"

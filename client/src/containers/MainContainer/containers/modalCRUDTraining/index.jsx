@@ -2,71 +2,43 @@ import React from 'react';
 import { connect } from 'react-redux';
 import * as actions from './redux/actions';
 import * as actionsDomainData from '../../redux/actions';
+import {
+  tainingsByIdSelector,
+  tainingsAllIdsSelector,
+} from '../../redux/selectors';
+import {
+  isOpenedModalSelector,
+  openedModalSelector,
+  editableTrainingIdSelector,
+} from './redux/selectors';
 import getCalendarDateISO from '../../../../utils/dates';
 import ModalCRUDTraining from './components/ModalCRUDTraining';
-
-const actionCreators = {
-  addTraining: actionsDomainData.addTraining,
-  editTraining: actionsDomainData.editTraining,
-  deleteTraining: actionsDomainData.deleteTraining,
-  openModal: actions.openModal,
-  closeModal: actions.closeModal,
-};
-
-const mapStateToProps = ({
-  mainContainerData: {
-    uiState: { modalCRUDTraining: { isOpened, openedModal, editableTrainingId } },
-    domainData: { trainings: { allIds, byId } },
-  },
-}) => {
-  if (openedModal === 'addTraining') {
-    return {
-      initialValues: { date: getCalendarDateISO() },
-      isOpened,
-      openedModal,
-      trainingsIds: allIds,
-    };
-  }
-  return {
-    initialValues: byId[editableTrainingId],
-    isOpened,
-    openedModal,
-    trainingsIds: allIds,
-    editableTrainingId,
-  };
-};
+import StyledAddTModalBtn from './styled';
 
 const ModalCRUDTrainingContainer = (props) => {
-  const handleAddTraining = ({
-    date,
-    activityType,
-    distance,
-    comment = '',
-  }) => {
+  const handleOpenAddTrainingModal = () => {
+    const { openAddTrainingModal } = props;
+    openAddTrainingModal();
+  };
+
+  const handleAddTraining = (inputValues) => {
     const { addTraining, trainingsIds } = props;
     const newTraining = {
       id: trainingsIds.length === 0 ? 1 : (trainingsIds[0] + 1),
-      date,
-      activityType,
-      distance,
-      comment,
+      date: '',
+      trainingType: '',
+      distance: 0,
+      comment: '',
+      ...inputValues,
     };
     addTraining({ newTraining });
   };
 
-  const handleEditTraining = ({
-    date,
-    activityType,
-    distance,
-    comment,
-  }) => {
+  const handleEditTraining = (inputValues) => {
     const { editTraining, initialValues } = props;
     const editedTraining = {
       ...initialValues,
-      date,
-      activityType,
-      distance,
-      comment,
+      ...inputValues,
     };
     editTraining({ editedTraining });
   };
@@ -85,16 +57,42 @@ const ModalCRUDTrainingContainer = (props) => {
   const { isOpened, openedModal, initialValues } = props;
 
   return (
-    <ModalCRUDTraining
-      handleAddTraining={handleAddTraining}
-      handleEditTraining={handleEditTraining}
-      handleDeledeTraining={handleDeledeTraining}
-      handleCloseModal={handleCloseModal}
-      isOpened={isOpened}
-      openedModal={openedModal}
-      initialValues={initialValues}
-    />
+    <>
+      <StyledAddTModalBtn color="danger" onClick={handleOpenAddTrainingModal}>New</StyledAddTModalBtn>
+      <ModalCRUDTraining
+        handleAddTraining={handleAddTraining}
+        handleEditTraining={handleEditTraining}
+        handleDeledeTraining={handleDeledeTraining}
+        handleCloseModal={handleCloseModal}
+        isOpened={isOpened}
+        openedModal={openedModal}
+        initialValues={initialValues}
+      />
+    </>
   );
+};
+
+const actionCreators = {
+  addTraining: actionsDomainData.addTraining,
+  editTraining: actionsDomainData.editTraining,
+  deleteTraining: actionsDomainData.deleteTraining,
+  openModal: actions.openModal,
+  closeModal: actions.closeModal,
+  openAddTrainingModal: actions.openAddTrainingModal,
+};
+
+const mapStateToProps = (state) => {
+  const initialValues = (openedModalSelector(state) === 'addTraining'
+    ? { date: getCalendarDateISO() }
+    : tainingsByIdSelector(state)[editableTrainingIdSelector(state)]
+  );
+  return {
+    initialValues,
+    isOpened: isOpenedModalSelector(state),
+    openedModal: openedModalSelector(state),
+    trainingsIds: tainingsAllIdsSelector(state),
+    editableTrainingId: editableTrainingIdSelector(state),
+  };
 };
 
 export default connect(mapStateToProps, actionCreators)(ModalCRUDTrainingContainer);

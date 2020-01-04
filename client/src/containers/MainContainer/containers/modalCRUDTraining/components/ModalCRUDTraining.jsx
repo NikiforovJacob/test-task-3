@@ -9,19 +9,6 @@ import {
 } from 'reactstrap';
 import FormTraining from './FormTraining';
 
-const validate = (values) => {
-  const errors = {};
-  const isEmptyValidate = (fieldName) => {
-    if (!values[fieldName]) {
-      errors[fieldName] = 'Required';
-    }
-  };
-  isEmptyValidate('date');
-  isEmptyValidate('activityType');
-  isEmptyValidate('distance');
-  return errors;
-};
-
 const ModalCRUDTraining = (props) => {
   const {
     isOpened,
@@ -85,6 +72,27 @@ const ModalCRUDTraining = (props) => {
       </Modal>
     </>
   );
+};
+
+const validate = (values) => {
+  const errors = {};
+  const isEmpty = (fieldName) => {
+    if (!values[fieldName]) {
+      errors[fieldName] = 'Required';
+    }
+  };
+  const distanceValidate = (fieldName) => {
+    if (!values[fieldName]) {
+      errors[fieldName] = 'Required';
+    }
+    if (values[fieldName] <= 0) {
+      errors[fieldName] = 'Must be over then zero';
+    }
+  };
+  isEmpty('date');
+  isEmpty('activityType');
+  distanceValidate('distance');
+  return errors;
 };
 
 export default reduxForm({

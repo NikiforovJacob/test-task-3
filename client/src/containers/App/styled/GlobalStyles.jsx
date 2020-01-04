@@ -6,12 +6,20 @@ const GlobalStyles = injectGlobal`
   }
 
   html {
-    min-height: 100%;
+    height: 100%;
     position: relative;
   }
   
   body {
-    margin-bottom: 80px;
+    height: 100%;
+  }
+
+  #app {
+    height: 100%;
+  }
+
+  .App {
+    height: 100%;
   }
 `;
 
