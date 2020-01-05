@@ -5,6 +5,7 @@ import {
   Label,
   Input,
 } from 'reactstrap';
+import PropTypes from 'prop-types';
 import * as renderFields from '../../../../../shared/redux-form-components/renderFields';
 import trainingTypes from '../../../../../shared/data';
 
@@ -41,6 +42,10 @@ const FormTraining = (props) => {
       </FormGroup>
     </form>
   );
+};
+
+FormTraining.propTypes = {
+  handleSubmit: PropTypes.func.isRequired,
 };
 
 export default FormTraining;

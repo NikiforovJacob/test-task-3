@@ -1,5 +1,6 @@
 import React from 'react';
 import { reduxForm } from 'redux-form';
+import PropTypes from 'prop-types';
 import {
   Button,
   Modal,
@@ -93,6 +94,17 @@ const validate = (values) => {
   isEmpty('activityType');
   distanceValidate('distance');
   return errors;
+};
+
+ModalCRUDTraining.propTypes = {
+  isOpened: PropTypes.bool.isRequired,
+  openedModal: PropTypes.string.isRequired,
+  handleCloseModal: PropTypes.func.isRequired,
+  handleSubmit: PropTypes.func.isRequired,
+  handleAddTraining: PropTypes.func.isRequired,
+  handleEditTraining: PropTypes.func.isRequired,
+  handleDeledeTraining: PropTypes.func.isRequired,
+  reset: PropTypes.func.isRequired,
 };
 
 export default reduxForm({

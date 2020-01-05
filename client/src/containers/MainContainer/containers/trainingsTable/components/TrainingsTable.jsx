@@ -1,21 +1,15 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {
   Table,
-  FormGroup,
-  Label,
-  Input,
 } from 'reactstrap';
-import trainingTypes from '../../../../../shared/data';
 import {
   StyledHeader,
   StyledTablePlug,
   StyledTable,
   StyledSortButton,
-  StyledSummary,
-  StyledFilterCheckGroup,
-  StyledDetails,
 } from '../styled';
-import iconFilter from '../../../../../shared/icons/funnel.svg';
+import FilterDropdownMenu from './FilterDropdownMenu';
 
 const TrainingsTable = (props) => {
   const {
@@ -25,11 +19,13 @@ const TrainingsTable = (props) => {
     sortBy,
     sortDerrection,
     handleOpenEditTrainingModal,
-    handleSetFilterByType,
     handleSetSortBy,
+    filterAttributes,
+    handleSetFilterByType,
   } = props;
 
   const renderTableBody = (tById, tIds) => tIds.map((tId) => (
+    // eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions
     <tbody key={`${tId}`} onClick={handleOpenEditTrainingModal(tId)} onKeyDown={handleOpenEditTrainingModal(tId)}>
       <tr>
         {Object.keys(tById[tId]).map(
@@ -53,34 +49,6 @@ const TrainingsTable = (props) => {
     );
   };
 
-  const renderFilterForm = (attributes) => {
-    const isFilterActive = !Object.keys(filterByTypesConfig).reduce(
-      (acc, type) => (acc && filterByTypesConfig[type]), true,
-    );
-    return (
-      <StyledDetails>
-        <StyledSummary active={isFilterActive}>
-          <img
-            src={iconFilter}
-            alt="filter icon"
-            height="17px"
-            width="17px"
-          />
-        </StyledSummary>
-        <StyledFilterCheckGroup>
-          {attributes.map((type) => (
-            <FormGroup check key={type}>
-              <Label htmlFor={type} check>
-                <Input onChange={handleSetFilterByType} checked={filterByTypesConfig[type]} name={type} id={type} type="checkbox" />
-                {type}
-              </Label>
-            </FormGroup>
-          ))}
-        </StyledFilterCheckGroup>
-      </StyledDetails>
-    );
-  };
-
   return (
     <StyledTable>
       <StyledHeader>Trainings log</StyledHeader>
@@ -93,7 +61,11 @@ const TrainingsTable = (props) => {
             </th>
             <th>
               Type of activity
-              {renderFilterForm(trainingTypes)}
+              <FilterDropdownMenu
+                filterAttributes={filterAttributes}
+                filterByTypesConfig={filterByTypesConfig}
+                handleSetFilterByType={handleSetFilterByType}
+              />
             </th>
             <th>
               Distance, km
@@ -107,6 +79,18 @@ const TrainingsTable = (props) => {
       {trainingsIds.length === 0 ? renderPlug : null}
     </StyledTable>
   );
+};
+
+TrainingsTable.propTypes = {
+  trainingsById: PropTypes.objectOf(PropTypes.object).isRequired,
+  trainingsIds: PropTypes.arrayOf(PropTypes.number).isRequired,
+  filterByTypesConfig: PropTypes.objectOf(PropTypes.bool).isRequired,
+  filterAttributes: PropTypes.arrayOf(PropTypes.string).isRequired,
+  sortBy: PropTypes.string.isRequired,
+  sortDerrection: PropTypes.string.isRequired,
+  handleOpenEditTrainingModal: PropTypes.func.isRequired,
+  handleSetSortBy: PropTypes.func.isRequired,
+  handleSetFilterByType: PropTypes.func.isRequired,
 };
 
 export default TrainingsTable;

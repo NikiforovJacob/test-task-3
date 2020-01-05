@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import * as actions from './redux/actions';
 import * as actionsDomainData from '../../redux/actions';
 import {
@@ -16,13 +17,24 @@ import ModalCRUDTraining from './components/ModalCRUDTraining';
 import StyledAddTModalBtn from './styled';
 
 const ModalCRUDTrainingContainer = (props) => {
+  const {
+    trainingsIds,
+    isOpened,
+    openedModal,
+    editableTrainingId,
+    initialValues,
+    openAddTrainingModal,
+    addTraining,
+    editTraining,
+    deleteTraining,
+    closeModal,
+  } = props;
+
   const handleOpenAddTrainingModal = () => {
-    const { openAddTrainingModal } = props;
     openAddTrainingModal();
   };
 
   const handleAddTraining = (inputValues) => {
-    const { addTraining, trainingsIds } = props;
     const newTraining = {
       id: trainingsIds.length === 0 ? 1 : (trainingsIds[0] + 1),
       date: '',
@@ -35,7 +47,6 @@ const ModalCRUDTrainingContainer = (props) => {
   };
 
   const handleEditTraining = (inputValues) => {
-    const { editTraining, initialValues } = props;
     const editedTraining = {
       ...initialValues,
       ...inputValues,
@@ -44,17 +55,12 @@ const ModalCRUDTrainingContainer = (props) => {
   };
 
   const handleDeledeTraining = () => {
-    const { deleteTraining, editableTrainingId } = props;
-    const id = editableTrainingId;
-    deleteTraining({ id });
+    deleteTraining({ id: editableTrainingId });
   };
 
   const handleCloseModal = () => {
-    const { closeModal } = props;
     closeModal();
   };
-
-  const { isOpened, openedModal, initialValues } = props;
 
   return (
     <>
@@ -76,7 +82,6 @@ const actionCreators = {
   addTraining: actionsDomainData.addTraining,
   editTraining: actionsDomainData.editTraining,
   deleteTraining: actionsDomainData.deleteTraining,
-  openModal: actions.openModal,
   closeModal: actions.closeModal,
   openAddTrainingModal: actions.openAddTrainingModal,
 };
@@ -93,6 +98,24 @@ const mapStateToProps = (state) => {
     trainingsIds: tainingsAllIdsSelector(state),
     editableTrainingId: editableTrainingIdSelector(state),
   };
+};
+
+ModalCRUDTrainingContainer.propTypes = {
+  trainingsIds: PropTypes.arrayOf(PropTypes.number).isRequired,
+  isOpened: PropTypes.bool.isRequired,
+  openedModal: PropTypes.string.isRequired,
+  initialValues: PropTypes.shape({
+    id: PropTypes.number,
+    date: PropTypes.string,
+    trainingType: PropTypes.string,
+    distance: PropTypes.number,
+    comment: PropTypes.string,
+  }).isRequired,
+  openAddTrainingModal: PropTypes.func.isRequired,
+  addTraining: PropTypes.func.isRequired,
+  editTraining: PropTypes.func.isRequired,
+  deleteTraining: PropTypes.func.isRequired,
+  closeModal: PropTypes.func.isRequired,
 };
 
 export default connect(mapStateToProps, actionCreators)(ModalCRUDTrainingContainer);

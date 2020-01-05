@@ -1,8 +1,10 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import * as actions from '../modalCRUDTraining/redux/actions';
 import * as actionsDomainData from '../../redux/actions';
 import TrainingsTable from './components/TrainingsTable';
+import trainingTypes from '../../../../shared/data';
 import {
   tainingsAllFilteredAndSortedIdsSelector,
   tainingsByIdSelector,
@@ -48,6 +50,7 @@ const TrainingsTableContainer = (props) => {
       handleOpenEditTrainingModal={handleOpenEditTrainingModal}
       handleSetFilterByType={handleSetFilterByType}
       handleSetSortBy={handleSetSortBy}
+      filterAttributes={trainingTypes}
     />
   );
 };
@@ -65,5 +68,14 @@ const mapStateToProps = (state) => ({
   sortBy: tainingsSortBySelector(state),
   sortDerrection: tainingsSortDerrectionSelector(state),
 });
+
+TrainingsTableContainer.propTypes = {
+  trainingsById: PropTypes.objectOf(PropTypes.object).isRequired,
+  trainingsIds: PropTypes.arrayOf(PropTypes.number).isRequired,
+  filterByTypesConfig: PropTypes.objectOf(PropTypes.bool).isRequired,
+  sortBy: PropTypes.string.isRequired,
+  sortDerrection: PropTypes.string.isRequired,
+  openEditTrainingModal: PropTypes.func.isRequired,
+};
 
 export default connect(mapStateToProps, actionCreators)(TrainingsTableContainer);
