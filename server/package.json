@@ -13,7 +13,7 @@
     "test:all": "mocha -R nyan -r ts-node/register ./tests/**/*.ts"
   },
   "dependencies": {
-    "axios": "^0.18.0",
+    "axios": "^0.18.1",
     "bcryptjs-then": "^1.0.1",
     "body-parser": "^1.18.2",
     "convict": "^4.2.0",
