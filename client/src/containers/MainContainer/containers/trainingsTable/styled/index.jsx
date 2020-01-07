@@ -3,7 +3,12 @@ import styled from '@emotion/styled';
 export const StyledTable = styled.div`
   width: 500px;
   max-height: 90%;
-`;
+  overflow: auto;
+  @media screen and (max-width: 800px) {
+    margin: 0px 0px 30px 0px;
+    overflow: visible;
+  }
+  margin: 50px 40px;`;
 
 export const StyledHeader = styled.div`
   font: bold 20px arial;

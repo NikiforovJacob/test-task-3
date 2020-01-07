@@ -9,24 +9,25 @@ import {
 } from '../../redux/selectors';
 import {
   isOpenedModalSelector,
+  isFetchingSelector,
   openedModalSelector,
   editableTrainingIdSelector,
 } from './redux/selectors';
-import getCalendarDateISO from '../../../../utils/dates';
+import { getCalendarDateISO } from '../../../../utils/dates';
 import ModalCRUDTraining from './components/ModalCRUDTraining';
 import StyledAddTModalBtn from './styled';
 
 const ModalCRUDTrainingContainer = (props) => {
   const {
-    trainingsIds,
     isOpened,
+    isFetching,
     openedModal,
     editableTrainingId,
     initialValues,
     openAddTrainingModal,
-    addTraining,
-    editTraining,
-    deleteTraining,
+    fetchAddTraining,
+    fetchDeleteTraining,
+    fetchEditTraining,
     closeModal,
   } = props;
 
@@ -36,14 +37,13 @@ const ModalCRUDTrainingContainer = (props) => {
 
   const handleAddTraining = (inputValues) => {
     const newTraining = {
-      id: trainingsIds.length === 0 ? 1 : (trainingsIds[0] + 1),
       date: '',
       trainingType: '',
-      distance: 0,
+      distance: '',
       comment: '',
       ...inputValues,
     };
-    addTraining({ newTraining });
+    fetchAddTraining({ newTraining });
   };
 
   const handleEditTraining = (inputValues) => {
@@ -51,11 +51,11 @@ const ModalCRUDTrainingContainer = (props) => {
       ...initialValues,
       ...inputValues,
     };
-    editTraining({ editedTraining });
+    fetchEditTraining({ editedTraining });
   };
 
   const handleDeledeTraining = () => {
-    deleteTraining({ id: editableTrainingId });
+    fetchDeleteTraining({ id: editableTrainingId });
   };
 
   const handleCloseModal = () => {
@@ -71,6 +71,7 @@ const ModalCRUDTrainingContainer = (props) => {
         handleDeledeTraining={handleDeledeTraining}
         handleCloseModal={handleCloseModal}
         isOpened={isOpened}
+        isFetching={isFetching}
         openedModal={openedModal}
         initialValues={initialValues}
       />
@@ -79,21 +80,24 @@ const ModalCRUDTrainingContainer = (props) => {
 };
 
 const actionCreators = {
-  addTraining: actionsDomainData.addTraining,
-  editTraining: actionsDomainData.editTraining,
+  fetchAddTraining: actions.fetchAddTraining,
+  fetchDeleteTraining: actions.fetchDeleteTraining,
+  fetchEditTraining: actions.fetchEditTraining,
   deleteTraining: actionsDomainData.deleteTraining,
   closeModal: actions.closeModal,
   openAddTrainingModal: actions.openAddTrainingModal,
 };
 
 const mapStateToProps = (state) => {
-  const initialValues = (openedModalSelector(state) === 'addTraining'
-    ? { date: getCalendarDateISO() }
-    : tainingsByIdSelector(state)[editableTrainingIdSelector(state)]
-  );
+  const getInitialValues = {
+    addTraining: { date: getCalendarDateISO() },
+    editTraining: tainingsByIdSelector(state)[editableTrainingIdSelector(state)],
+    none: {},
+  };
   return {
-    initialValues,
+    initialValues: getInitialValues[openedModalSelector(state)],
     isOpened: isOpenedModalSelector(state),
+    isFetching: isFetchingSelector(state),
     openedModal: openedModalSelector(state),
     trainingsIds: tainingsAllIdsSelector(state),
     editableTrainingId: editableTrainingIdSelector(state),
@@ -101,20 +105,20 @@ const mapStateToProps = (state) => {
 };
 
 ModalCRUDTrainingContainer.propTypes = {
-  trainingsIds: PropTypes.arrayOf(PropTypes.number).isRequired,
   isOpened: PropTypes.bool.isRequired,
+  isFetching: PropTypes.bool.isRequired,
   openedModal: PropTypes.string.isRequired,
   initialValues: PropTypes.shape({
     id: PropTypes.number,
     date: PropTypes.string,
     trainingType: PropTypes.string,
-    distance: PropTypes.number,
+    distance: PropTypes.string,
     comment: PropTypes.string,
   }).isRequired,
   openAddTrainingModal: PropTypes.func.isRequired,
-  addTraining: PropTypes.func.isRequired,
-  editTraining: PropTypes.func.isRequired,
-  deleteTraining: PropTypes.func.isRequired,
+  fetchAddTraining: PropTypes.func.isRequired,
+  fetchDeleteTraining: PropTypes.func.isRequired,
+  fetchEditTraining: PropTypes.func.isRequired,
   closeModal: PropTypes.func.isRequired,
 };
 

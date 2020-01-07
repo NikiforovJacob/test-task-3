@@ -1,10 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { ClipLoader } from 'react-spinners';
+import { Spinner } from 'reactstrap';
+import styled from '@emotion/styled';
+
+export const StyledSpinner = styled(Spinner)`
+  display: block;
+  margin: 0px auto;
+`;
 
 const withSpinner = (Component) => {
   const Wrapped = ({ isFetching, ...props }) => (
-    isFetching ? <ClipLoader /> : <Component {...props} />
+    isFetching ? <StyledSpinner type="grow" color="primary" /> : <Component {...props} />
   );
 
   Wrapped.propTypes = {

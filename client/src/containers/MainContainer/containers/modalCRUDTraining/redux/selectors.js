@@ -4,15 +4,25 @@ const getModalCRUDTrainingUiState = (state) => state.mainContainerData.uiState.m
 
 export const isOpenedModalSelector = createSelector(
   getModalCRUDTrainingUiState,
-  (mainContainerData) => mainContainerData.isOpened,
+  (modalCRUDUiState) => modalCRUDUiState.isOpened,
+);
+
+export const isFetchingSelector = createSelector(
+  getModalCRUDTrainingUiState,
+  (modalCRUDUiState) => modalCRUDUiState.isFetching,
+);
+
+export const isFetchingCRUDSelector = createSelector(
+  getModalCRUDTrainingUiState,
+  (modalCRUDUiState) => modalCRUDUiState.error !== null,
 );
 
 export const openedModalSelector = createSelector(
   getModalCRUDTrainingUiState,
-  (mainContainerData) => mainContainerData.openedModal,
+  (modalCRUDUiState) => modalCRUDUiState.openedModal,
 );
 
 export const editableTrainingIdSelector = createSelector(
   getModalCRUDTrainingUiState,
-  (mainContainerData) => mainContainerData.editableTrainingId,
+  (modalCRUDUiState) => modalCRUDUiState.editableTrainingId,
 );

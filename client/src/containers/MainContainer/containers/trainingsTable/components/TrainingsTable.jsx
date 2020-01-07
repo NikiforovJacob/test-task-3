@@ -5,17 +5,21 @@ import {
 } from 'reactstrap';
 import {
   StyledHeader,
-  StyledTablePlug,
   StyledTable,
   StyledSortButton,
 } from '../styled';
 import FilterDropdownMenu from './FilterDropdownMenu';
+import TableBodyPlug from './TableBodyPlug';
+import withSpinner from '../../../../../shared/hocs/withSpinners';
+
+const TableBodyPlugWithSpinner = withSpinner(TableBodyPlug);
 
 const TrainingsTable = (props) => {
   const {
     trainingsById,
     trainingsIds,
     filterByTypesConfig,
+    isFetching,
     sortBy,
     sortDerrection,
     handleOpenEditTrainingModal,
@@ -24,21 +28,21 @@ const TrainingsTable = (props) => {
     handleSetFilterByType,
   } = props;
 
-  const renderTableBody = (tById, tIds) => tIds.map((tId) => (
-    // eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions
-    <tbody key={`${tId}`} onClick={handleOpenEditTrainingModal(tId)} onKeyDown={handleOpenEditTrainingModal(tId)}>
-      <tr>
-        {Object.keys(tById[tId]).map(
-          (key) => (key === 'id' ? null : (<td key={`${tId}-${key}`}>{tById[tId][key]}</td>)),
-        )}
-      </tr>
-    </tbody>
-  ));
-
-  const renderPlug = <StyledTablePlug>List is empty</StyledTablePlug>;
+  const renderTableBody = (tById, tIds) => tIds.map(
+    (tId) => (
+      // eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions
+      <tbody key={`${tId}`} onClick={handleOpenEditTrainingModal(tId)} onKeyDown={handleOpenEditTrainingModal(tId)}>
+        <tr>
+          {Object.keys(tById[tId]).map(
+            (key) => (key === 'id' ? null : (<td key={`${tId}-${key}`}>{tById[tId][key]}</td>)),
+          )}
+        </tr>
+      </tbody>
+    ),
+  );
 
   const renderSortBtn = (currentSortBy) => {
-    const derrectionIcon = currentSortBy === sortBy && sortDerrection === 'toLower' ? <>&#9660;</> : <>&#9650;</>;
+    const derrectionIcon = (currentSortBy === sortBy && sortDerrection === 'toLower') ? <>&#9660;</> : <>&#9650;</>;
     return (
       <StyledSortButton
         active={currentSortBy === sortBy}
@@ -63,7 +67,7 @@ const TrainingsTable = (props) => {
               Type of activity
               <FilterDropdownMenu
                 filterAttributes={filterAttributes}
-                filterByTypesConfig={filterByTypesConfig}
+                filterAttributesConfig={filterByTypesConfig}
                 handleSetFilterByType={handleSetFilterByType}
               />
             </th>
@@ -74,9 +78,13 @@ const TrainingsTable = (props) => {
             <th>Comment</th>
           </tr>
         </thead>
-        {trainingsIds.length === 0 ? null : renderTableBody(trainingsById, trainingsIds)}
+        {trainingsIds.length === 0 || isFetching
+          ? null
+          : renderTableBody(trainingsById, trainingsIds)}
       </Table>
-      {trainingsIds.length === 0 ? renderPlug : null}
+      {trainingsIds.length === 0 || isFetching
+        ? <TableBodyPlugWithSpinner isFetching={isFetching} />
+        : null}
     </StyledTable>
   );
 };
@@ -86,6 +94,7 @@ TrainingsTable.propTypes = {
   trainingsIds: PropTypes.arrayOf(PropTypes.number).isRequired,
   filterByTypesConfig: PropTypes.objectOf(PropTypes.bool).isRequired,
   filterAttributes: PropTypes.arrayOf(PropTypes.string).isRequired,
+  isFetching: PropTypes.bool.isRequired,
   sortBy: PropTypes.string.isRequired,
   sortDerrection: PropTypes.string.isRequired,
   handleOpenEditTrainingModal: PropTypes.func.isRequired,

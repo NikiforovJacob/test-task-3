@@ -1,14 +1,14 @@
 import styled from '@emotion/styled';
 
-export const StyledMainContainer = styled.div`
+const StyledMainContainer = styled.div`
   display: flex;
-  flex-wrap: wrap;
+  @media screen and (max-width: 800px) {
+    flex-wrap: wrap;
+  }
   justify-content: space-around;
   align-items: flex-start;
   height: 100%;
-  padding: 30px 10px;
+  padding: 10px 10px;
 `;
 
-export const Styled = styled.div`
-
-`;
+export default StyledMainContainer;

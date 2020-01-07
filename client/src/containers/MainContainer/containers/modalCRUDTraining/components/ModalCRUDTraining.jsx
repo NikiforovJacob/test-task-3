@@ -7,12 +7,14 @@ import {
   ModalHeader,
   ModalBody,
   ModalFooter,
+  Spinner,
 } from 'reactstrap';
 import FormTraining from './FormTraining';
 
 const ModalCRUDTraining = (props) => {
   const {
     isOpened,
+    isFetching,
     openedModal,
     handleCloseModal,
     handleSubmit,
@@ -36,12 +38,18 @@ const ModalCRUDTraining = (props) => {
   const headerOfAdder = <div>Add new training</div>;
   const footerOfEditor = (
     <>
-      <Button type="submit" color="primary" form="trainingForm">Edit</Button>
-      <Button type="submit" color="danger" onClick={handleDeledeTrainingR}>Delete</Button>
+      { isFetching ? <Spinner size="sm" color="primary" /> : null}
+      {' '}
+      <Button disabled={isFetching} type="submit" color="primary" form="trainingForm">Edit</Button>
+      <Button disabled={isFetching} type="submit" color="danger" onClick={handleDeledeTrainingR}>Delete</Button>
     </>
   );
   const footerOfAdder = (
-    <Button type="submit" color="primary" form="trainingForm">Add</Button>
+    <>
+      { isFetching ? <Spinner size="sm" color="primary" /> : null}
+      {' '}
+      <Button disabled={isFetching} type="submit" color="primary" form="trainingForm">Add</Button>
+    </>
   );
   const closeBtn = <button type="button" className="close" onClick={handleCloseModal}>&times;</button>;
 
@@ -55,6 +63,11 @@ const ModalCRUDTraining = (props) => {
       header: headerOfEditor,
       footer: footerOfEditor,
       formSubmitter: handleEditTraining,
+    },
+    none: {
+      header: null,
+      footer: null,
+      formSubmitter: handleAddTrainingR,
     },
   };
 
@@ -77,27 +90,23 @@ const ModalCRUDTraining = (props) => {
 
 const validate = (values) => {
   const errors = {};
-  const isEmpty = (fieldName) => {
-    if (!values[fieldName]) {
-      errors[fieldName] = 'Required';
-    }
-  };
-  const distanceValidate = (fieldName) => {
-    if (!values[fieldName]) {
-      errors[fieldName] = 'Required';
-    }
-    if (values[fieldName] <= 0) {
-      errors[fieldName] = 'Must be over then zero';
-    }
-  };
-  isEmpty('date');
-  isEmpty('activityType');
-  distanceValidate('distance');
+  if (!values.date) {
+    errors.date = 'Required';
+  }
+  if (!values.trainingType) {
+    errors.trainingType = 'Required';
+  }
+  if (!values.distance) {
+    errors.distance = 'Required';
+  } else if (values.distance <= 0) {
+    errors.distance = 'Must be over then zero';
+  }
   return errors;
 };
 
 ModalCRUDTraining.propTypes = {
   isOpened: PropTypes.bool.isRequired,
+  isFetching: PropTypes.bool.isRequired,
   openedModal: PropTypes.string.isRequired,
   handleCloseModal: PropTypes.func.isRequired,
   handleSubmit: PropTypes.func.isRequired,

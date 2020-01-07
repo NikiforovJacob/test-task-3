@@ -1,17 +1,20 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import * as actions from '../modalCRUDTraining/redux/actions';
-import * as actionsDomainData from '../../redux/actions';
+import * as actionsCRUDTrainings from '../modalCRUDTraining/redux/actions';
+import * as actions from './redux/actions';
 import TrainingsTable from './components/TrainingsTable';
 import trainingTypes from '../../../../shared/data';
 import {
-  tainingsAllFilteredAndSortedIdsSelector,
   tainingsByIdSelector,
+  isFetchingSelector,
+} from '../../redux/selectors';
+import {
+  tainingsAllFilteredAndSortedIdsSelector,
   tainingsFilterByTypesSelector,
   tainingsSortBySelector,
   tainingsSortDerrectionSelector,
-} from '../../redux/selectors';
+} from './redux/selectors';
 
 const TrainingsTableContainer = (props) => {
   const {
@@ -21,6 +24,7 @@ const TrainingsTableContainer = (props) => {
     filterByTypesConfig,
     sortBy,
     sortDerrection,
+    isFetching,
   } = props;
 
   const handleSetFilterByType = (e) => {
@@ -51,14 +55,15 @@ const TrainingsTableContainer = (props) => {
       handleSetFilterByType={handleSetFilterByType}
       handleSetSortBy={handleSetSortBy}
       filterAttributes={trainingTypes}
+      isFetching={isFetching}
     />
   );
 };
 
 const actionCreators = {
-  openEditTrainingModal: actions.openEditTrainingModal,
-  setFilterByType: actionsDomainData.setFilterByType,
-  setSort: actionsDomainData.setSort,
+  openEditTrainingModal: actionsCRUDTrainings.openEditTrainingModal,
+  setFilterByType: actions.setFilterByType,
+  setSort: actions.setSort,
 };
 
 const mapStateToProps = (state) => ({
@@ -67,6 +72,7 @@ const mapStateToProps = (state) => ({
   filterByTypesConfig: tainingsFilterByTypesSelector(state),
   sortBy: tainingsSortBySelector(state),
   sortDerrection: tainingsSortDerrectionSelector(state),
+  isFetching: isFetchingSelector(state),
 });
 
 TrainingsTableContainer.propTypes = {
@@ -76,6 +82,7 @@ TrainingsTableContainer.propTypes = {
   sortBy: PropTypes.string.isRequired,
   sortDerrection: PropTypes.string.isRequired,
   openEditTrainingModal: PropTypes.func.isRequired,
+  isFetching: PropTypes.bool.isRequired,
 };
 
 export default connect(mapStateToProps, actionCreators)(TrainingsTableContainer);

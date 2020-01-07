@@ -4,43 +4,13 @@ import omit from 'ramda/src/omit';
 import without from 'ramda/src/without';
 import * as actions from './actions';
 import modalCRUDTrainingReducer from '../containers/modalCRUDTraining/redux/reducer';
-import trainingTypes from '../../../shared/data';
+import trainingsTableReducer from '../containers/trainingsTable/redux/reducer';
 
 const trainingsDefaultState = {
-  byId: {
-    4: {
-      id: 4,
-      date: '2019-12-20',
-      trainingType: 'Running',
-      distance: 5.0,
-      comment: 'fe',
-    },
-    3: {
-      id: 3,
-      date: '2019-12-02',
-      trainingType: 'Running',
-      distance: 4.3,
-      comment: 'fe',
-    },
-    2: {
-      id: 2,
-      date: '2020-01-01',
-      trainingType: 'Cycling',
-      distance: 10.8,
-      comment: 'fe',
-    },
-    1: {
-      id: 1,
-      date: '2019-12-29',
-      trainingType: 'Swimming',
-      distance: 0.5,
-      comment: 'fe',
-    },
-  },
-  allIds: [4, 3, 2, 1],
-  filterByTypes: trainingTypes.reduce((acc, type) => ({ ...acc, [type]: true }), {}),
-  sortBy: 'date',
-  sortDerrection: 'toLower',
+  byId: {},
+  allIds: [],
+  isFetching: false,
+  error: null,
 };
 
 const trainingsReducer = handleActions(
@@ -69,17 +39,33 @@ const trainingsReducer = handleActions(
         allIds: without([id], allIds),
       };
     },
-    [actions.setFilterByType](state, { payload: { filterByTypes } }) {
+
+
+    [actions.fetchTrainingsRequest](state) {
       return {
         ...state,
-        filterByTypes,
+        isFetching: true,
       };
     },
-    [actions.setSort](state, { payload: { sortBy, sortDerrection } }) {
+    [actions.fetchTrainingsSuccess](state, { payload }) {
       return {
         ...state,
-        sortBy,
-        sortDerrection,
+        byId: payload,
+        allIds: Object.keys(payload).map((id) => Number(id)).sort((a, b) => b - a),
+        isFetching: false,
+      };
+    },
+    [actions.fetchTrainingsFailure](state, { payload }) {
+      return {
+        ...state,
+        isFetching: false,
+        error: payload,
+      };
+    },
+    [actions.resetFetchTrainingsError](state) {
+      return {
+        ...state,
+        error: null,
       };
     },
   },
@@ -92,6 +78,7 @@ const domainDataReducer = combineReducers({
 
 const uiStateReducer = combineReducers({
   modalCRUDTraining: modalCRUDTrainingReducer,
+  trainingsTable: trainingsTableReducer,
 });
 
 export default combineReducers({

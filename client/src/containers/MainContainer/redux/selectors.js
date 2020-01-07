@@ -12,40 +12,12 @@ export const tainingsAllIdsSelector = createSelector(
   (tainings) => tainings.allIds,
 );
 
-export const tainingsFilterByTypesSelector = createSelector(
+export const isFetchingSelector = createSelector(
   getDomainDataTrainings,
-  (tainings) => tainings.filterByTypes,
+  (tainings) => tainings.isFetching,
 );
 
-export const tainingsSortBySelector = createSelector(
+export const isFetchingError = createSelector(
   getDomainDataTrainings,
-  (tainings) => tainings.sortBy,
-);
-
-export const tainingsSortDerrectionSelector = createSelector(
-  getDomainDataTrainings,
-  (tainings) => tainings.sortDerrection,
-);
-
-export const tainingsAllFilteredAndSortedIdsSelector = createSelector(
-  getDomainDataTrainings,
-  ({
-    byId,
-    allIds,
-    filterByTypes,
-    sortBy,
-    sortDerrection,
-  }) => {
-    const tainingsFiltered = allIds.filter((id) => filterByTypes[byId[id].trainingType]);
-    const isToLower = sortDerrection === 'toLower';
-    return tainingsFiltered.sort((a, b) => {
-      if (byId[a][sortBy] > byId[b][sortBy]) {
-        return isToLower ? -1 : 1;
-      }
-      if (byId[a][sortBy] < byId[b][sortBy]) {
-        return isToLower ? 1 : -1;
-      }
-      return 0;
-    });
-  },
+  (tainings) => tainings.error !== null,
 );
