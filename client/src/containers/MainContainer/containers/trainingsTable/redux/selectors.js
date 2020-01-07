@@ -27,14 +27,17 @@ export const tainingsAllFilteredAndSortedIdsSelector = createSelector(
   }) => {
     const tainingsFiltered = allIds.filter((id) => filterByTypes[byId[id].trainingType]);
     const isToLower = sortDerrection === 'toLower';
+    const cnvrt = {
+      date: (v) => new Date(v),
+      distance: (v) => Number(v),
+    };
     return tainingsFiltered.sort((a, b) => {
-      if (byId[a][sortBy] > byId[b][sortBy]) {
-        return isToLower ? -1 : 1;
+      const A = cnvrt[sortBy](byId[a][sortBy]);
+      const B = cnvrt[sortBy](byId[b][sortBy]);
+      if (isToLower) {
+        return A - B;
       }
-      if (byId[a][sortBy] < byId[b][sortBy]) {
-        return isToLower ? 1 : -1;
-      }
-      return 0;
+      return B - A;
     });
   },
 );
