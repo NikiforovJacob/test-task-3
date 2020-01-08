@@ -2,11 +2,17 @@ import styled from '@emotion/styled';
 
 export const StyledTable = styled.div`
   width: 500px;
-  max-height: 90%;
+  @media screen and (min-width: 890px) {
+    max-height: 90%;
+  }
   overflow: auto;
-  @media screen and (max-width: 800px) {
+  min-width: 458px;
+  @media screen and (max-width: 890px) {
     margin: 0px 0px 30px 0px;
     overflow: visible;
+    min-width: 320px;
+    font-size: 0.8em;
+    height: auto;
   }
   margin: 50px 40px;`;
 

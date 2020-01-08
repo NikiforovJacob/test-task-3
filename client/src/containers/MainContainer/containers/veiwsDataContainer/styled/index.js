@@ -4,7 +4,7 @@ export const StyledChartContainer = styled.div`
   min-width: 320px;
   max-width: 700px;
   width: 100%;
-  @media screen and (max-width: 800px) {
+  @media screen and (max-width: 890px) {
     margin: 30px 0px;
   }
   margin: 50px 40px;;

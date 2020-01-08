@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 
 const StyledMainContainer = styled.div`
   display: flex;
-  @media screen and (max-width: 800px) {
+  @media screen and (max-width: 890px) {
     flex-wrap: wrap;
   }
   justify-content: space-around;
