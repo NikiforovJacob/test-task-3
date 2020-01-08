@@ -34,7 +34,9 @@ const TrainingsTable = (props) => {
       <tbody key={`${tId}`} onClick={handleOpenEditTrainingModal(tId)} onKeyDown={handleOpenEditTrainingModal(tId)}>
         <tr>
           {Object.keys(tById[tId]).map(
-            (key) => (key === 'id' ? null : (<td key={`${tId}-${key}`}>{tById[tId][key]}</td>)),
+            (key) => ((key === 'date' || key === 'trainingType' || key === 'distance')
+              ? (<td key={`${tId}-${key}`}>{tById[tId][key]}</td>)
+              : null),
           )}
         </tr>
       </tbody>
@@ -75,7 +77,6 @@ const TrainingsTable = (props) => {
               Distance, km
               {renderSortBtn('distance')}
             </th>
-            <th>Comment</th>
           </tr>
         </thead>
         {trainingsIds.length === 0 || isFetching
