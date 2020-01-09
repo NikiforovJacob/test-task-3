@@ -33,11 +33,17 @@ class TrainingsService {
   }
 
   public static editTraining(training) {
+    if (!trainings.byId.hasOwnProperty(training.id)) {
+      return false;
+    }
     trainings.byId = { ...trainings.byId, [training.id]: training };
     return true;
   }
 
   public static deleteTraining(id) {
+    if (!trainings.byId.hasOwnProperty(id)) {
+      return false;
+    }
     trainings.byId = R.omit([id], trainings.byId);
     trainings.allIds = R.without([id], trainings.allIds);
     return true;

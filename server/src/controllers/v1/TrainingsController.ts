@@ -19,12 +19,16 @@ class TrainingsController extends BaseController {
   }
 
   public deleteTraining(req: Request, res: Response, next: NextFunction): Response {
-    TrainingsService.deleteTraining(req.params.id);
+    if (!TrainingsService.deleteTraining(req.params.id)) {
+      return res.status(404).json({ result: 'Training not found' });
+    }
     return res.json({ result: 'ok' });
   }
 
   public editTraining(req: Request, res: Response, next: NextFunction): Response {
-    TrainingsService.editTraining(req.body);
+    if (!TrainingsService.editTraining(req.body)) {
+      return res.status(404).json({ result: 'Training not found' });
+    }
     return res.json({ result: 'ok' });
   }
 }

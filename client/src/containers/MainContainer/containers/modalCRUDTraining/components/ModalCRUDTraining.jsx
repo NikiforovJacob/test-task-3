@@ -72,19 +72,17 @@ const ModalCRUDTraining = (props) => {
   };
 
   return (
-    <>
-      <Modal isOpen={isOpened} toggle={handleCloseModal}>
-        <ModalHeader toggle={handleCloseModal} close={closeBtn}>
-          {getModalType[openedModal].header}
-        </ModalHeader>
-        <ModalBody>
-          <FormTraining handleSubmit={handleSubmit(getModalType[openedModal].formSubmitter)} />
-        </ModalBody>
-        <ModalFooter>
-          {getModalType[openedModal].footer}
-        </ModalFooter>
-      </Modal>
-    </>
+    <Modal isOpen={isOpened} toggle={handleCloseModal}>
+      <ModalHeader toggle={handleCloseModal} close={closeBtn}>
+        {getModalType[openedModal].header}
+      </ModalHeader>
+      <ModalBody>
+        <FormTraining handleSubmit={handleSubmit(getModalType[openedModal].formSubmitter)} />
+      </ModalBody>
+      <ModalFooter>
+        {getModalType[openedModal].footer}
+      </ModalFooter>
+    </Modal>
   );
 };
 
