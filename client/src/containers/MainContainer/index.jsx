@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import TrainingsTable from './containers/trainingsTable';
 import ModalCRUDTraining from './containers/modalCRUDTraining';
-import ViewsDataContainer from './containers/veiwsDataContainer';
-import FetchAlert from './components/FetchAlert';
+import ViewsDataContainer from './containers/viewsDataContainer';
+import FetchAlertContainer from './containers/fetchAlert';
 import * as actionsDomainData from './redux/actions';
 import StyledMainContainer from './styled';
 
@@ -16,7 +16,7 @@ class MainContainer extends Component {
   render() {
     return (
       <>
-        <FetchAlert />
+        <FetchAlertContainer />
         <ModalCRUDTraining />
         <StyledMainContainer>
           <ViewsDataContainer />

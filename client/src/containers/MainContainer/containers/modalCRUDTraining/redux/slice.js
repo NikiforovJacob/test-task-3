@@ -1,8 +1,7 @@
-import { handleActions } from 'redux-actions';
-import * as actions from './actions';
+import { createSlice } from '@reduxjs/toolkit';
 import * as actionsDomainData from '../../../redux/actions';
 
-const modalCRUDTrainingDefaultState = {
+const initialState = {
   isOpened: false,
   openedModal: 'none',
   editableTrainingId: null,
@@ -10,16 +9,18 @@ const modalCRUDTrainingDefaultState = {
   error: null,
 };
 
-const modalCRUDTrainingReducer = handleActions(
-  {
-    [actions.openAddTrainingModal](state) {
+const modalCRUDTrainingSlice = createSlice({
+  name: 'modalCRUDTraining',
+  initialState,
+  reducers: {
+    openAddTrainingModal(state) {
       return {
         ...state,
         openedModal: 'addTraining',
         isOpened: true,
       };
     },
-    [actions.openEditTrainingModal](state, { payload: { editableTrainingId } }) {
+    openEditTrainingModal(state, { payload: { editableTrainingId } }) {
       return {
         ...state,
         openedModal: 'editTraining',
@@ -27,32 +28,34 @@ const modalCRUDTrainingReducer = handleActions(
         editableTrainingId,
       };
     },
-    [actions.closeModal](state) {
+    closeModal(state) {
       return {
         ...state,
         isOpened: false,
         openedModal: 'none',
       };
     },
-    [actions.fetchCRUDTrainingsRequest](state) {
+    fetchCRUDTrainingsRequest(state) {
       return {
         ...state,
         isFetching: true,
       };
     },
-    [actions.fetchCRUDTrainingsFailure](state, { payload }) {
+    fetchCRUDTrainingsFailure(state, { payload }) {
       return {
         ...state,
         isFetching: false,
         error: payload,
       };
     },
-    [actions.resetFetchCRUDTrainings](state) {
+    resetFetchCRUDTrainings(state) {
       return {
         ...state,
         error: null,
       };
     },
+  },
+  extraReducers: {
     [actionsDomainData.addTraining](state) {
       return {
         ...state,
@@ -78,7 +81,15 @@ const modalCRUDTrainingReducer = handleActions(
       };
     },
   },
-  modalCRUDTrainingDefaultState,
-);
+});
 
-export default modalCRUDTrainingReducer;
+export const {
+  openAddTrainingModal,
+  openEditTrainingModal,
+  closeModal,
+  fetchCRUDTrainingsRequest,
+  fetchCRUDTrainingsFailure,
+  resetFetchCRUDTrainings,
+} = modalCRUDTrainingSlice.actions;
+
+export default modalCRUDTrainingSlice.reducer;

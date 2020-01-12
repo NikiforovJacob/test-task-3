@@ -2,10 +2,9 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import * as actions from './redux/actions';
-import * as actionsDomainData from '../../redux/actions';
 import {
-  tainingsByIdSelector,
-  tainingsAllIdsSelector,
+  trainingsByIdSelector,
+  trainingsAllIdsSelector,
 } from '../../redux/selectors';
 import {
   isOpenedModalSelector,
@@ -54,7 +53,7 @@ const ModalCRUDTrainingContainer = (props) => {
     fetchEditTraining({ editedTraining });
   };
 
-  const handleDeledeTraining = () => {
+  const handleDeleteTraining = () => {
     fetchDeleteTraining({ id: editableTrainingId });
   };
 
@@ -68,7 +67,7 @@ const ModalCRUDTrainingContainer = (props) => {
       <ModalCRUDTraining
         handleAddTraining={handleAddTraining}
         handleEditTraining={handleEditTraining}
-        handleDeledeTraining={handleDeledeTraining}
+        handleDeleteTraining={handleDeleteTraining}
         handleCloseModal={handleCloseModal}
         isOpened={isOpened}
         isFetching={isFetching}
@@ -83,7 +82,6 @@ const actionCreators = {
   fetchAddTraining: actions.fetchAddTraining,
   fetchDeleteTraining: actions.fetchDeleteTraining,
   fetchEditTraining: actions.fetchEditTraining,
-  deleteTraining: actionsDomainData.deleteTraining,
   closeModal: actions.closeModal,
   openAddTrainingModal: actions.openAddTrainingModal,
 };
@@ -91,7 +89,7 @@ const actionCreators = {
 const mapStateToProps = (state) => {
   const getInitialValues = {
     addTraining: { date: getCalendarDateISO() },
-    editTraining: tainingsByIdSelector(state)[editableTrainingIdSelector(state)],
+    editTraining: trainingsByIdSelector(state)[editableTrainingIdSelector(state)],
     none: {},
   };
   return {
@@ -99,7 +97,7 @@ const mapStateToProps = (state) => {
     isOpened: isOpenedModalSelector(state),
     isFetching: isFetchingSelector(state),
     openedModal: openedModalSelector(state),
-    trainingsIds: tainingsAllIdsSelector(state),
+    trainingsIds: trainingsAllIdsSelector(state),
     editableTrainingId: editableTrainingIdSelector(state),
   };
 };

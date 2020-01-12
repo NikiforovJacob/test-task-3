@@ -1,14 +1,14 @@
-import { createAction } from 'redux-actions';
 import api from '../../../../../utils/ApiClient';
-import * as actionsDomainData from '../../../redux/actions';
+import * as actionsDomainData from '../../../redux/slice';
 
-export const openAddTrainingModal = createAction('MODAL_OPEN');
-export const openEditTrainingModal = createAction('MODAL_EDIT_T_OPEN');
-export const closeModal = createAction('MODAL_CLOSE');
-
-export const fetchCRUDTrainingsRequest = createAction('FETCH_TRAINING_CRUD_REQUEST');
-export const fetchCRUDTrainingsFailure = createAction('FETCH_TRAINING_CRUD_FAILURE');
-export const resetFetchCRUDTrainings = createAction('ERROR_FETCH_CRUD_TRAININGS_RESET');
+import {
+  openAddTrainingModal,
+  openEditTrainingModal,
+  closeModal,
+  fetchCRUDTrainingsRequest,
+  fetchCRUDTrainingsFailure,
+  resetFetchCRUDTrainings,
+} from './slice';
 
 export const fetchAddTraining = ({ newTraining }) => async (dispatch) => {
   try {
@@ -42,4 +42,13 @@ export const fetchEditTraining = ({ editedTraining }) => async (dispatch) => {
     dispatch(fetchCRUDTrainingsFailure(error));
     console.log(error);
   }
+};
+
+export {
+  openAddTrainingModal,
+  openEditTrainingModal,
+  closeModal,
+  fetchCRUDTrainingsRequest,
+  fetchCRUDTrainingsFailure,
+  resetFetchCRUDTrainings,
 };

@@ -21,7 +21,7 @@ const TrainingsTable = (props) => {
     filterByTypesConfig,
     isFetching,
     sortBy,
-    sortDerrection,
+    sortDirection,
     handleOpenEditTrainingModal,
     handleSetSortBy,
     filterAttributes,
@@ -44,13 +44,13 @@ const TrainingsTable = (props) => {
   );
 
   const renderSortBtn = (currentSortBy) => {
-    const derrectionIcon = (currentSortBy === sortBy && sortDerrection === 'toLower') ? <>&#9660;</> : <>&#9650;</>;
+    const directionIcon = (currentSortBy === sortBy && sortDirection === 'toLower') ? <>&#9660;</> : <>&#9650;</>;
     return (
       <StyledSortButton
         active={currentSortBy === sortBy}
         onClick={handleSetSortBy(currentSortBy)}
       >
-        {derrectionIcon}
+        {directionIcon}
       </StyledSortButton>
     );
   };
@@ -97,7 +97,7 @@ TrainingsTable.propTypes = {
   filterAttributes: PropTypes.arrayOf(PropTypes.string).isRequired,
   isFetching: PropTypes.bool.isRequired,
   sortBy: PropTypes.string.isRequired,
-  sortDerrection: PropTypes.string.isRequired,
+  sortDirection: PropTypes.string.isRequired,
   handleOpenEditTrainingModal: PropTypes.func.isRequired,
   handleSetSortBy: PropTypes.func.isRequired,
   handleSetFilterByType: PropTypes.func.isRequired,

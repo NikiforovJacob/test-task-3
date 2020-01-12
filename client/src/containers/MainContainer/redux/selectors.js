@@ -1,23 +1,23 @@
-import { createSelector } from 'reselect';
+import { createSelector } from '@reduxjs/toolkit';
 
 const getDomainDataTrainings = (state) => state.mainContainerData.domainData.trainings;
 
-export const tainingsByIdSelector = createSelector(
+export const trainingsByIdSelector = createSelector(
   getDomainDataTrainings,
-  (tainings) => tainings.byId,
+  (trainings) => trainings.byId,
 );
 
-export const tainingsAllIdsSelector = createSelector(
+export const trainingsAllIdsSelector = createSelector(
   getDomainDataTrainings,
-  (tainings) => tainings.allIds,
+  (trainings) => trainings.allIds,
 );
 
 export const isFetchingSelector = createSelector(
   getDomainDataTrainings,
-  (tainings) => tainings.isFetching,
+  (trainings) => trainings.isFetching,
 );
 
 export const isFetchingError = createSelector(
   getDomainDataTrainings,
-  (tainings) => tainings.error !== null,
+  (trainings) => trainings.error !== null,
 );

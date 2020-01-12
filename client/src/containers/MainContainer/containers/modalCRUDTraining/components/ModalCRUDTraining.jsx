@@ -20,7 +20,7 @@ const ModalCRUDTraining = (props) => {
     handleSubmit,
     handleAddTraining,
     handleEditTraining,
-    handleDeledeTraining,
+    handleDeleteTraining,
     reset,
   } = props;
 
@@ -29,8 +29,8 @@ const ModalCRUDTraining = (props) => {
     reset();
   };
 
-  const handleDeledeTrainingR = (data) => {
-    handleDeledeTraining(data);
+  const handleDeleteTrainingR = (data) => {
+    handleDeleteTraining(data);
     reset();
   };
 
@@ -41,7 +41,7 @@ const ModalCRUDTraining = (props) => {
       { isFetching ? <Spinner size="sm" color="primary" /> : null}
       {' '}
       <Button disabled={isFetching} type="submit" color="primary" form="trainingForm">Edit</Button>
-      <Button disabled={isFetching} type="submit" color="danger" onClick={handleDeledeTrainingR}>Delete</Button>
+      <Button disabled={isFetching} type="submit" color="danger" onClick={handleDeleteTrainingR}>Delete</Button>
     </>
   );
   const footerOfAdder = (
@@ -110,7 +110,7 @@ ModalCRUDTraining.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
   handleAddTraining: PropTypes.func.isRequired,
   handleEditTraining: PropTypes.func.isRequired,
-  handleDeledeTraining: PropTypes.func.isRequired,
+  handleDeleteTraining: PropTypes.func.isRequired,
   reset: PropTypes.func.isRequired,
 };
 

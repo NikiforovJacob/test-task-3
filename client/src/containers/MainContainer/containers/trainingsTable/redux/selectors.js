@@ -1,39 +1,39 @@
-import { createSelector } from 'reselect';
+import { createSelector } from '@reduxjs/toolkit';
 
 const getUiStateTrainingsTable = (state) => state.mainContainerData.uiState.trainingsTable;
 
-export const tainingsFilterByTypesSelector = createSelector(
+export const trainingsFilterByTypesSelector = createSelector(
   getUiStateTrainingsTable,
   (trainingsTableState) => trainingsTableState.filterByTypes,
 );
 
-export const tainingsSortBySelector = createSelector(
+export const trainingsSortBySelector = createSelector(
   getUiStateTrainingsTable,
-  (tainings) => tainings.sortBy,
+  (trainings) => trainings.sortBy,
 );
 
-export const tainingsSortDerrectionSelector = createSelector(
+export const trainingsSortDirectionSelector = createSelector(
   getUiStateTrainingsTable,
-  (trainingsTableState) => trainingsTableState.sortDerrection,
+  (trainingsTableState) => trainingsTableState.sortDirection,
 );
 
 const getMainContainer = (state) => state.mainContainerData;
 
-export const tainingsAllFilteredAndSortedIdsSelector = createSelector(
+export const trainingsAllFilteredAndSortedIdsSelector = createSelector(
   getMainContainer,
   ({
     domainData: { trainings: { byId, allIds } },
-    uiState: { trainingsTable: { sortBy, sortDerrection, filterByTypes } },
+    uiState: { trainingsTable: { sortBy, sortDirection, filterByTypes } },
   }) => {
-    const tainingsFiltered = allIds.filter((id) => filterByTypes[byId[id].trainingType]);
-    const isToLower = sortDerrection === 'toLower';
-    const cnvrt = {
+    const trainingsFiltered = allIds.filter((id) => filterByTypes[byId[id].trainingType]);
+    const isToLower = sortDirection === 'toLower';
+    const convert = {
       date: (v) => new Date(v),
       distance: (v) => Number(v),
     };
-    return tainingsFiltered.sort((a, b) => {
-      const A = cnvrt[sortBy](byId[a][sortBy]);
-      const B = cnvrt[sortBy](byId[b][sortBy]);
+    return trainingsFiltered.sort((a, b) => {
+      const A = convert[sortBy](byId[a][sortBy]);
+      const B = convert[sortBy](byId[b][sortBy]);
       if (isToLower) {
         return A - B;
       }

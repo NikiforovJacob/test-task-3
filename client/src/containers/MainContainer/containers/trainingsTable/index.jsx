@@ -6,14 +6,14 @@ import * as actions from './redux/actions';
 import TrainingsTable from './components/TrainingsTable';
 import trainingTypes from '../../../../shared/data';
 import {
-  tainingsByIdSelector,
+  trainingsByIdSelector,
   isFetchingSelector,
 } from '../../redux/selectors';
 import {
-  tainingsAllFilteredAndSortedIdsSelector,
-  tainingsFilterByTypesSelector,
-  tainingsSortBySelector,
-  tainingsSortDerrectionSelector,
+  trainingsAllFilteredAndSortedIdsSelector,
+  trainingsFilterByTypesSelector,
+  trainingsSortBySelector,
+  trainingsSortDirectionSelector,
 } from './redux/selectors';
 
 const TrainingsTableContainer = (props) => {
@@ -23,7 +23,7 @@ const TrainingsTableContainer = (props) => {
     openEditTrainingModal,
     filterByTypesConfig,
     sortBy,
-    sortDerrection,
+    sortDirection,
     isFetching,
   } = props;
 
@@ -35,9 +35,9 @@ const TrainingsTableContainer = (props) => {
 
   const handleSetSortBy = (sortByNew) => () => {
     const { setSort } = props;
-    const rewerseSortDerrection = (sortDerrection === 'toLower' ? 'toHigher' : 'toLower');
-    const sortDerrectionNew = (sortByNew === sortBy ? rewerseSortDerrection : 'toLower');
-    setSort({ sortBy: sortByNew, sortDerrection: sortDerrectionNew });
+    const reverseSortDirection = (sortDirection === 'toLower' ? 'toHigher' : 'toLower');
+    const sortDirectionNew = (sortByNew === sortBy ? reverseSortDirection : 'toLower');
+    setSort({ sortBy: sortByNew, sortDirection: sortDirectionNew });
   };
 
   const handleOpenEditTrainingModal = (editableTrainingId) => () => {
@@ -50,7 +50,7 @@ const TrainingsTableContainer = (props) => {
       trainingsIds={trainingsIds}
       filterByTypesConfig={filterByTypesConfig}
       sortBy={sortBy}
-      sortDerrection={sortDerrection}
+      sortDirection={sortDirection}
       handleOpenEditTrainingModal={handleOpenEditTrainingModal}
       handleSetFilterByType={handleSetFilterByType}
       handleSetSortBy={handleSetSortBy}
@@ -67,11 +67,11 @@ const actionCreators = {
 };
 
 const mapStateToProps = (state) => ({
-  trainingsById: tainingsByIdSelector(state),
-  trainingsIds: tainingsAllFilteredAndSortedIdsSelector(state),
-  filterByTypesConfig: tainingsFilterByTypesSelector(state),
-  sortBy: tainingsSortBySelector(state),
-  sortDerrection: tainingsSortDerrectionSelector(state),
+  trainingsById: trainingsByIdSelector(state),
+  trainingsIds: trainingsAllFilteredAndSortedIdsSelector(state),
+  filterByTypesConfig: trainingsFilterByTypesSelector(state),
+  sortBy: trainingsSortBySelector(state),
+  sortDirection: trainingsSortDirectionSelector(state),
   isFetching: isFetchingSelector(state),
 });
 
@@ -80,7 +80,7 @@ TrainingsTableContainer.propTypes = {
   trainingsIds: PropTypes.arrayOf(PropTypes.number).isRequired,
   filterByTypesConfig: PropTypes.objectOf(PropTypes.bool).isRequired,
   sortBy: PropTypes.string.isRequired,
-  sortDerrection: PropTypes.string.isRequired,
+  sortDirection: PropTypes.string.isRequired,
   openEditTrainingModal: PropTypes.func.isRequired,
   isFetching: PropTypes.bool.isRequired,
 };

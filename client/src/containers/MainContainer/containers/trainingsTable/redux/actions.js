@@ -1,4 +1,9 @@
-import { createAction } from 'redux-actions';
+import {
+  setFilterByType,
+  setSort,
+} from './slice';
 
-export const setFilterByType = createAction('FILTER_BY_ACTIVITY_SET');
-export const setSort = createAction('SORT_SET');
+export {
+  setFilterByType,
+  setSort,
+};

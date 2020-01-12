@@ -1,4 +1,4 @@
-import { createSelector } from 'reselect';
+import { createSelector } from '@reduxjs/toolkit';
 import trainingTypes from '../../../../../shared/data';
 import { getWeekNumber, getCalendarDateISO } from '../../../../../utils/dates';
 
@@ -34,7 +34,7 @@ const defaultAccActivityByWeek = (types) => types.reduce(
 const getActivityByWeekSelector = createSelector(
   getDomainDataTrainings,
   ({ allIds, byId }) => {
-    const dateObject = allIds.reduce((acc, id) => {
+    const dataObject = allIds.reduce((acc, id) => {
       const { trainingType, date, distance } = byId[id];
       const weekNo = getWeekNumber(date);
       if (({}).hasOwnProperty.call(acc[trainingType], weekNo)) {
@@ -47,7 +47,7 @@ const getActivityByWeekSelector = createSelector(
       (type) => ({
         name: type,
         data: categories.map(
-          (week) => dateObject[type][week],
+          (week) => dataObject[type][week],
         ),
       }),
     );

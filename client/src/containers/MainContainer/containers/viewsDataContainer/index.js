@@ -6,7 +6,7 @@ import { StyledChartContainer } from './styled';
 import getActivityByWeekSelector from './redux/selectors';
 
 
-const VeiwsDataContainer = (props) => {
+const ViewsDataContainer = (props) => {
   const {
     activityByWeek,
   } = props;
@@ -22,11 +22,11 @@ const mapStateToProps = (state) => ({
   activityByWeek: getActivityByWeekSelector(state),
 });
 
-VeiwsDataContainer.propTypes = {
+ViewsDataContainer.propTypes = {
   activityByWeek: PropTypes.shape({
     series: PropTypes.arrayOf(PropTypes.object),
     categories: PropTypes.arrayOf(PropTypes.number),
   }).isRequired,
 };
 
-export default connect(mapStateToProps)(VeiwsDataContainer);
+export default connect(mapStateToProps)(ViewsDataContainer);
