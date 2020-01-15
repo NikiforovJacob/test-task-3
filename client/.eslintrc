@@ -1,12 +1,15 @@
 {
-  "parser": "babel-eslint",
+  "parser": "@typescript-eslint/parser",
+  "extends": [
+    "airbnb-typescript",
+    "plugin:@typescript-eslint/recommended"
+  ],
   "env": {
     "browser": true,
     "node": true
   },
-  "extends": ["airbnb"],
   "rules": {
-    "import/extensions": ["error", "never", { "jsx": "never"}],
+    "import/extensions": ["error", "never", { "tsx": "never"}],
     "jsx-a11y/label-has-for": [ 2, {
       "components": [ "Label" ],
       "required": "id",
@@ -20,13 +23,20 @@
       "explicitSpread": "ignore",
       "exceptions": ["Image", "img"]
     }],
-    "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
+    "react/jsx-filename-extension": [1, { "extensions": [".ts", ".tsx"] }],
     "no-console": "off",
     "comma-dangle": ["error", "always-multiline"]
   },
+  // "parserOptions": {
+  //   "ecmaFeatures": {
+  //     "jsx": true
+  //   }
+  // },
   "parserOptions": {
+    "ecmaVersion": 2018, // Allows for the parsing of modern ECMAScript features
+    "sourceType": "module", // Allows for the use of imports
     "ecmaFeatures": {
-      "jsx": true
+      "jsx": true // Allows for the parsing of JSX
     }
   }
 }

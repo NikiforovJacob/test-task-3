@@ -5,12 +5,13 @@ module.exports = {
     filename: 'bundle.js',
   },
   resolve: {
-    extensions: ['*', '.js', '.jsx'],
+    extensions: ['*', '.js', '.jsx', '.ts', '.tsx'],
   },
+  devtool: 'source-map',
   module: {
     rules: [
       {
-        test: /\.(js|jsx)$/,
+        test: /\.(ts|js)x?$/,
         exclude: /node_modules/,
         loader: 'babel-loader',
         options: {
@@ -34,7 +35,7 @@ module.exports = {
           },
         ],
       },
-      { test: /\.(js|jsx)$/, exclude: /node_modules/, use: ['eslint-loader'] },
+      { test: /\.(ts|js)x?$/, exclude: /node_modules/, use: ['eslint-loader'] },
       { test: /\.html$/, use: { loader: 'html-loader' } },
       {
         test: /\.css$/,
